@@ -8,6 +8,14 @@
   left: 0;
   z-index: 100;
 }
+.header-box {
+  width: 92%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
 .title {
   color: #FFFFFF;
   font-family: sans-serif;
@@ -64,4 +72,99 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+/* /////////////// MEDIA /////////////////////// */
+@media (min-width: 600px) {
+  .header {
+    height: 100px;
+  }
+  .header-box {
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+  }
+  .nav-menu {
+    width: 92%;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav-element {
+    width: fit-content;
+    height: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    border-bottom: none;
+  }
+  .nav-element:first-child {
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  .planet-name {
+    margin-left: 0px;
+    font-size: 15px;
+  }
+  .planet-name:hover {
+    color: red;
+  }
+  .cicle, .arrow-img, .menu-icon  {
+    display: none;
+  }
+}
+
+@media (min-width: 950px) {
+  .header {
+    width: 92%;
+    height: 50px;
+    display: flex;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .header-box {
+    width: fit-content;
+    margin-left: 0px;
+  }
+  .nav-menu {
+    width: 500px;
+    height: 50px;
+    transform: translateX(0px);
+    display: flex;
+    justify-content: space-between;
+    position: static;
+  }
+  .nav-element {
+    width: fit-content;
+    height: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    border-bottom: none;
+  }
+  .nav-element:first-child {
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+}
+
+@media (min-width: 1150px) {
+  .header {
+    height: 80px;
+  }
+  .nav-menu {
+    width: 620px;
+    height: 80px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+  .planet-name {
+    font-size: 20px;
+  }
 }

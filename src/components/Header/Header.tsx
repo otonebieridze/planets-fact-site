@@ -1,7 +1,7 @@
 import styles from "./Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 type Planet = {
@@ -31,23 +31,22 @@ type Planet = {
 };
 type HeaderProps = {
   data: Planet[];
+  isNavMenuVisible: boolean;
+  setIsNavMenuVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  windowWidth: number;
 };
 
-export default function Header({ data }: HeaderProps) {
-  const [isNavMenuVisible, setIsNavMenuVisible] = useState(false);
+export default function Header({
+  data,
+  isNavMenuVisible,
+  setIsNavMenuVisible,
+  windowWidth,
+}: HeaderProps) {
+  const [hoveredPlanet, setHoveredPlanet] = useState("");
 
   return (
     <div className={styles.header}>
-      <div
-        style={{
-          width: "92%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "auto",
-        }}
-      >
+      <div className={styles["header-box"]}>
         <p className={styles.title}>the planets</p>
         <FontAwesomeIcon
           icon={isNavMenuVisible ? faClose : faBars}
@@ -58,7 +57,7 @@ export default function Header({ data }: HeaderProps) {
 
       <div
         className={styles["nav-menu"]}
-        style={{ display: isNavMenuVisible ? "inherit" : "none" }}
+        style={{ visibility: isNavMenuVisible ? "visible" : "hidden" }}
       >
         {data.map((planet, index) => {
           return (
@@ -68,13 +67,21 @@ export default function Header({ data }: HeaderProps) {
                 className={styles.cicle}
               ></div>
               <Link
-                onClick={() => setIsNavMenuVisible(false)}
+                onMouseOver={() =>
+                  windowWidth >= 600 && setHoveredPlanet(planet.name)
+                }
+                onMouseOut={() => setHoveredPlanet("")}
+                onClick={() => windowWidth < 600 && setIsNavMenuVisible(false)}
                 to={
                   planet.name.toLowerCase() === "mercury"
                     ? "/"
                     : `/${planet.name.toLowerCase()}`
                 }
                 className={styles["planet-name"]}
+                style={{
+                  color:
+                    hoveredPlanet === planet.name ? planet.color : "#FFFFFF",
+                }}
               >
                 {planet.name}
               </Link>
@@ -88,7 +95,7 @@ export default function Header({ data }: HeaderProps) {
               >
                 <img
                   className={styles["arrow-img"]}
-                  src="../../../public/assets/arrow.png"
+                  src="../../../assets/arrow.png"
                   alt="arrow"
                 />
               </Link>

@@ -25,73 +25,29 @@ type Planet = {
 };
 type PlanetProps = {
   planetData: Planet;
+  windowWidth: number;
 };
 
 import styles from "./Planet.module.css";
 import { useState } from "react";
+import PlanetInfoMenu from "../components/PlanetInfoMenu/PlanetInfoMenu";
 
-export default function Mercury({ planetData }: PlanetProps) {
+export default function Planet({ planetData, windowWidth }: PlanetProps) {
   const [currentSection, setCurrentSection] = useState("overview");
   const [hoveredItem, setHoveredItem] = useState("");
 
   return (
     <div>
-      <div className={styles["planet-info-menu"]}>
-        <div
-          onMouseOver={() => setHoveredItem("overview")}
-          onMouseOut={() => setHoveredItem("")}
-          onClick={() => setCurrentSection("overview")}
-          className={`${
-            currentSection === "overview"
-              ? styles["planet-section-title-active"]
-              : styles["planet-section-title"]
-          }`}
-          style={{
-            borderBottom:
-              hoveredItem === "overview" || currentSection === "overview"
-                ? `4px solid ${planetData.color}`
-                : "",
-          }}
-        >
-          overview
-        </div>
-        <div
-          onMouseOver={() => setHoveredItem("structure")}
-          onMouseOut={() => setHoveredItem("")}
-          onClick={() => setCurrentSection("structure")}
-          className={`${
-            currentSection === "structure"
-              ? styles["planet-section-title-active"]
-              : styles["planet-section-title"]
-          }`}
-          style={{
-            borderBottom:
-              hoveredItem === "structure" || currentSection === "structure"
-                ? `4px solid ${planetData.color}`
-                : "",
-          }}
-        >
-          structure
-        </div>
-        <div
-          onMouseOver={() => setHoveredItem("surface")}
-          onMouseOut={() => setHoveredItem("")}
-          onClick={() => setCurrentSection("surface")}
-          className={`${
-            currentSection === "surface"
-              ? styles["planet-section-title-active"]
-              : styles["planet-section-title"]
-          }`}
-          style={{
-            borderBottom:
-              hoveredItem === "surface" || currentSection === "surface"
-                ? `4px solid ${planetData.color}`
-                : "",
-          }}
-        >
-          surface
-        </div>
-      </div>
+      {windowWidth < 600 && (
+        <PlanetInfoMenu
+          planetData={planetData}
+          currentSection={currentSection}
+          setCurrentSection={setCurrentSection}
+          hoveredItem={hoveredItem}
+          setHoveredItem={setHoveredItem}
+          windowWidth={windowWidth}
+        />
+      )}
 
       <div className={styles["main-section"]}>
         {currentSection === "overview" && (
@@ -124,124 +80,115 @@ export default function Mercury({ planetData }: PlanetProps) {
             />
           </div>
         )}
-        <p
-          style={{
-            color: "#FFFFFF",
-            fontSize: "25px",
-            fontFamily: "sans-serif",
-            fontStyle: "normal",
-            fontWeight: "400",
-            textTransform: "uppercase",
-            textAlign: "center",
-            marginTop: "50px",
-          }}
-        >
-          {planetData.name}
-        </p>
-        <p
-          style={{
-            color: "#FFFFFF",
-            fontSize: "12px",
-            fontFamily: "sans-serif",
-            fontStyle: "normal",
-            fontWeight: "400",
-            lineHeight: "18px",
-            textAlign: "center",
-            marginTop: "10px",
-            opacity: "50%",
-          }}
-        >
-          {currentSection === "overview" && planetData.overview.content}
-          {currentSection === "structure" && planetData.structure.content}
-          {currentSection === "surface" && planetData.geology.content}
-        </p>
-        <p style={{ marginTop: "30px", marginBottom: "25px" }}>
-          <span
-            style={{
-              color: "#FFFFFF",
-              fontSize: "13px",
-              fontFamily: "sans-serif",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "18px",
-              textAlign: "center",
-              opacity: "50%",
-            }}
-          >
-            Source :{" "}
-          </span>
 
-          {currentSection === "overview" && (
-            <a
-              href={planetData.overview.source}
-              target="_blank"
-              style={{
-                textDecoration: "none",
-                color: "#FFFFFF",
-                opacity: "100%",
-              }}
-            >
-              Wikipedia
-              <img
-                style={{ marginLeft: "3px" }}
-                src="../../../assets/link-icon.png"
-                alt="link-icon"
-              />
-            </a>
-          )}
-          {currentSection === "structure" && (
-            <a
-              href={planetData.structure.source}
-              target="_blank"
-              style={{
-                textDecoration: "none",
-                color: "#FFFFFF",
-                opacity: "100%",
-              }}
-            >
-              Wikipedia
-              <img
-                style={{ marginLeft: "3px" }}
-                src="../../../assets/link-icon.png"
-                alt="link-icon"
-              />
-            </a>
-          )}
-          {currentSection === "surface" && (
-            <a
-              href={planetData.geology.source}
-              target="_blank"
-              style={{
-                textDecoration: "none",
-                color: "#FFFFFF",
-                opacity: "100%",
-              }}
-            >
-              Wikipedia
-              <img
-                style={{ marginLeft: "3px" }}
-                src="../../../assets/link-icon.png"
-                alt="link-icon"
-              />
-            </a>
-          )}
-        </p>
+        <div className={styles["planet-text-div"]}>
+          <p className={styles["planet-text-name"]}>{planetData.name}</p>
+          <p className={styles["planet-main-text"]}>
+            {currentSection === "overview" && planetData.overview.content}
+            {currentSection === "structure" && planetData.structure.content}
+            {currentSection === "surface" && planetData.geology.content}
+          </p>
 
+          <p style={{ marginTop: "30px", marginBottom: "25px" }}>
+            <span
+              style={{
+                color: "#FFFFFF",
+                fontSize: "13px",
+                fontFamily: "sans-serif",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "18px",
+                textAlign: "center",
+                opacity: "50%",
+              }}
+            >
+              Source :{" "}
+            </span>
+            {currentSection === "overview" && (
+              <a
+                href={planetData.overview.source}
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: "#FFFFFF",
+                  opacity: "100%",
+                }}
+              >
+                Wikipedia
+                <img
+                  style={{ marginLeft: "3px" }}
+                  src="../../../assets/link-icon.png"
+                  alt="link-icon"
+                />
+              </a>
+            )}
+            {currentSection === "structure" && (
+              <a
+                href={planetData.structure.source}
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: "#FFFFFF",
+                  opacity: "100%",
+                }}
+              >
+                Wikipedia
+                <img
+                  style={{ marginLeft: "3px" }}
+                  src="../../../assets/link-icon.png"
+                  alt="link-icon"
+                />
+              </a>
+            )}
+            {currentSection === "surface" && (
+              <a
+                href={planetData.geology.source}
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: "#FFFFFF",
+                  opacity: "100%",
+                }}
+              >
+                Wikipedia
+                <img
+                  style={{ marginLeft: "3px" }}
+                  src="../../../assets/link-icon.png"
+                  alt="link-icon"
+                />
+              </a>
+            )}
+          </p>
+
+          {windowWidth >= 600 && (
+            <PlanetInfoMenu
+              planetData={planetData}
+              currentSection={currentSection}
+              setCurrentSection={setCurrentSection}
+              hoveredItem={hoveredItem}
+              setHoveredItem={setHoveredItem}
+              windowWidth={windowWidth}
+            />
+          )}
+        </div>
+      </div>
+
+      <div className={styles["planet-details-container"]}>
         <div className={styles["planet-details"]}>
-          <p style={{ fontSize: "10px", opacity: "50%" }}>ROTATION TIME</p>
-          <p style={{ fontSize: "18px" }}>{planetData.rotation}</p>
+          <h3>ROTATION TIME</h3>
+          <p>{planetData.rotation}</p>
         </div>
         <div className={styles["planet-details"]}>
-          <p style={{ fontSize: "10px", opacity: "50%" }}>REVOLUTION TIME</p>
-          <p style={{ fontSize: "18px" }}>{planetData.revolution}</p>
+          <h3>REVOLUTION TIME</h3>
+          <p>{planetData.revolution}</p>
         </div>
         <div className={styles["planet-details"]}>
-          <p style={{ fontSize: "10px", opacity: "50%" }}>RADIUS</p>
-          <p style={{ fontSize: "18px" }}>{planetData.radius}</p>
+          <h3>RADIUS</h3>
+          <p>{planetData.radius}</p>
         </div>
         <div className={styles["planet-details"]}>
-          <p style={{ fontSize: "10px", opacity: "50%" }}>AVERAGE TEMP.</p>
-          <p style={{ fontSize: "18px" }}>{planetData.temperature}</p>
+          <h3>AVERAGE TEMP.</h3>
+          <p>{planetData.temperature}</p>
         </div>
       </div>
     </div>
