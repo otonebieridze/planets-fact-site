@@ -1,5 +1,6 @@
 .main-section {
   width: 92%;
+  max-width: 1200px;
   min-height: 450px;
   margin: auto;
   display: flex;
@@ -47,6 +48,7 @@
 
 .planet-details-container {
   width: 92%;
+  max-width: 1200px;
   min-height: 250px;
   margin: auto;
 }
